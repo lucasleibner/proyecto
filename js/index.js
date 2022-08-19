@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
+
+    checkLogin();
+
     document.getElementById("autos").addEventListener("click", function() {
         localStorage.setItem("catID", 101);
         window.location = "products.html"
@@ -12,3 +15,11 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = "products.html"
     });
 });
+
+function checkLogin(){
+    let username = localStorage.getItem("username")
+
+    if(username == null){
+        window.location.href="login.html"
+    }
+}
