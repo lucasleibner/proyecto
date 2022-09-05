@@ -1,18 +1,26 @@
 //array donde se cargarán los datos recibidos:
-let productsArray = [];
+let categoryArray = [];
+let currentProductsArray = [];
+let minCount = undefined;
+let maxCount = undefined;
+let search = undefined;
 
 //función que recibe un array con los datos, y los muestra en pantalla a través el uso del DOM
-function showProductsList(productsArray){
+function showProductsList(){
     let htmlContentToAppend = "";
+    let contenido = "";
 
-
-htmlContentToAppend += `<div class="text-center p-4">
+contenido = `<div class="text-center p-4">
 <h2>Productos</h2>
-<p class="lead">Aquí verás todos los productos de la categoría <strong>` + productsArray.catName + `</strong></p>`
+<p class="lead">Aquí verás todos los productos de la categoría <strong>` + categoryArray.catName + `</strong></p>`
 
 
-    for(let i = 0; i < productsArray.products.length; i++){ 
-        let product = productsArray.products[i];
+    for(let i = 0; i < currentProductsArray.length; i++){ 
+        let product = currentProductsArray[i];
+
+        if (((minCount == undefined) || (minCount != undefined && parseInt(product.cost) >= minCount)) &&
+            ((maxCount == undefined) || (maxCount != undefined && parseInt(product.cost) <= maxCount))){
+                if (search == undefined || search == "" || product.name.toUpperCase().includes(search) || product.description.toUpperCase().includes(search)) {
         htmlContentToAppend += `
         <div class="list-group-item list-group-item-action">
             <div class="row">
@@ -30,28 +38,113 @@ htmlContentToAppend += `<div class="text-center p-4">
                 </div>
             </div>
         </div>
-        `}
-        document.getElementById("prod-list-container").innerHTML = htmlContentToAppend; 
-    
+        `}}}
+        document.getElementById("titulo").innerHTML = contenido; 
+        document.getElementById("prod-list-container").innerHTML = htmlContentToAppend;    
 }
 
-
-/* 
-EJECUCIÓN:
-
--Al cargar la página se llama a getJSONData() pasándole por parámetro la dirección para obtener el listado.
--Se verifica el estado del objeto que devuelve, y, si es correcto, se cargan los datos en categoriesArray.
--Por último, se llama a showCategoriesList() pasándole por parámetro categoriesArray.
-
-*/
-
 document.addEventListener("DOMContentLoaded", function(e){
+    checkLogin();
     getJSONData(PRODUCTS_URL + localStorage.getItem('catID') + EXT_TYPE).then(function(resultObj){
         if (resultObj.status === "ok")
         {
-            productsArray = resultObj.data;
-            showProductsList(productsArray);
+            currentProductsArray = resultObj.data.products;
+            categoryArray = resultObj.data;
+            showProductsList();
         }
+    });
+
+    document.getElementById("search").addEventListener("input", function(){
+        search = document.getElementById("search").value.toUpperCase();
+showProductsList()
+    });
+
+    document.getElementById("rangeFilterCount").addEventListener("click", function(){
+        //Obtengo el mínimo y máximo de los intervalos para filtrar por cantidad
+        //de productos por categoría.
+        minCount = document.getElementById("rangeFilterCountMin").value;
+        maxCount = document.getElementById("rangeFilterCountMax").value;
+
+        if ((minCount != undefined) && (minCount != "") && (parseInt(minCount)) >= 0){
+            minCount = parseInt(minCount);
+        }
+        else{
+            minCount = undefined;
+        }
+
+        if ((maxCount != undefined) && (maxCount != "") && (parseInt(maxCount)) >= 0){
+            maxCount = parseInt(maxCount);
+        }
+        else{
+            maxCount = undefined;
+        }
+
+        showProductsList();
+    });
+
+    document.getElementById("clearRangeFilter").addEventListener("click", function(){
+        document.getElementById("rangeFilterCountMin").value = "";
+        document.getElementById("rangeFilterCountMax").value = "";
+
+        minCount = undefined;
+        maxCount = undefined;
+
+        showProductsList();
+    });
+
+    document.getElementById("sortAsc").addEventListener("click", function(){
+        sortAndShowProducts("ASC");
+    });
+
+    document.getElementById("sortDesc").addEventListener("click", function(){
+        sortAndShowProducts("DESC"); 
+    });
+
+    document.getElementById("sortByRel").addEventListener("click", function(){
+        sortAndShowProducts("REL");
     });
 });
 
+function checkLogin(){
+    let username = localStorage.getItem("username")
+
+    if(username == null){
+        window.location.href="login.html"
+    }else{
+        document.getElementById('user').innerHTML = `<a class="nav-link">`+ username + `</a>`;
+    }
+
+}
+
+function sortAndShowProducts(sortCriteria, productsArray){
+    currentSortCriteria = sortCriteria;
+
+    if(productsArray != undefined){
+        currentProductsArray = productsArray;
+    }
+
+    currentProductsArray = sortProducts(currentSortCriteria, currentProductsArray);
+
+    //Muestro los productos ordenados
+    showProductsList();
+}
+
+function sortProducts(criteria, array){
+    let result = [];
+    if (criteria === "ASC")
+    {
+        result = array.sort(function(a, b) {
+            return a.cost - b.cost;
+        });
+    }else if (criteria === "DESC"){
+        result = array.sort(function(a, b) {
+            return b.cost - a.cost;
+        });
+    }else if (criteria === "REL"){
+        result = array.sort(function(a, b) {
+            return parseInt(b.soldCount) - parseInt(a.soldCount);
+        });
+    }
+
+    return result;
+}

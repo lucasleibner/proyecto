@@ -21,5 +21,8 @@ function checkLogin(){
 
     if(username == null){
         window.location.href="login.html"
+    }else{
+        document.getElementById('user').innerHTML = `<a class="nav-link">`+ username + `</a>`;
     }
+
 }
