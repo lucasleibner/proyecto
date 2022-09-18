@@ -143,13 +143,3 @@ document.addEventListener("DOMContentLoaded", function(e){
     });
 });
 
-function checkLogin(){
-    let username = localStorage.getItem("username")
-
-    if(username == null){
-        window.location.href="login.html"
-    }else{
-        document.getElementById('user').innerHTML = `<a class="nav-link">`+ username + `</a>`;
-    }
-
-}

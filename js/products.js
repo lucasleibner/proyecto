@@ -22,7 +22,7 @@ contenido = `<div class="text-center p-4">
             ((maxCount == undefined) || (maxCount != undefined && parseInt(product.cost) <= maxCount))){
                 if (search == undefined || search == "" || product.name.toUpperCase().includes(search) || product.description.toUpperCase().includes(search)) {
         htmlContentToAppend += `
-        <div class="list-group-item list-group-item-action">
+        <div onclick="setProdID(${product.id})" class="list-group-item list-group-item-action cursor-active">
             <div class="row">
                 <div class="col-3">
                     <img src="` + product.image + `" alt="product image" class="img-thumbnail">
@@ -105,17 +105,6 @@ showProductsList()
     });
 });
 
-function checkLogin(){
-    let username = localStorage.getItem("username")
-
-    if(username == null){
-        window.location.href="login.html"
-    }else{
-        document.getElementById('user').innerHTML = `<a class="nav-link">`+ username + `</a>`;
-    }
-
-}
-
 function sortAndShowProducts(sortCriteria, productsArray){
     currentSortCriteria = sortCriteria;
 
@@ -147,4 +136,9 @@ function sortProducts(criteria, array){
     }
 
     return result;
+}
+
+function setProdID(id) {
+    localStorage.setItem("prodId", id);
+    window.location = "product-info.html"
 }

@@ -30,7 +30,7 @@
           <li class="nav-item">
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="user">
           </li>
         </ul>
       </div>
@@ -38,8 +38,31 @@
   </nav>
   <main>
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+      <div id="prodInfo">
+      </div>
+      <div class="m-1 p-2 lead">
+        <h3>Comentarios</h3>
+        <div class="list-group px-4" id="comments">
+
+        </div>
+      </div>
+      <div id="MakeComments">
+        <div class="w-50 m-1 p-2">
+          <form>
+            <h3>Comentar</h3>
+            <p>Tu opinión:</p>
+            <textarea required class="form-control" name="comentario" id="comment" cols="60" rows="4"></textarea>
+            <p>Tu puntuación:</p>
+            <select class="custom-select form-select d-block w-25" name="punt" id="score">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <div class="btn btn-lg btn-primary d-block mt-3 w-25" id="enviar">Enviar</div>
+          </form>
+        </div>
       </div>
     </div>
   </main>
