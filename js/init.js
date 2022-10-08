@@ -46,7 +46,22 @@ function checkLogin(){
   if(username == null){
       window.location.href="login.html"
   }else{
-      document.getElementById('user').innerHTML = `<a class="nav-link">`+ username + `</a>`;
+      document.getElementById('user').innerHTML = `
+<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          ${username}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+          <li><a class="dropdown-item" href="cart.html">Mi carrito</a></li>
+          <li><a class="dropdown-item" href="my-profile.html">Mi perfil</a></li>
+          <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="login.html" onclick="localStorage.removeItem('username')">Cerrar sesión</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>`;
   }
 
 }
