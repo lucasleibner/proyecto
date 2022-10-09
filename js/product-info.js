@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
             product = resultObj.data;
             showProduct();
             showRelatedProducts();
+            buyProduct();
+            console.log(JSON.parse(localStorage.getItem('carrito')));
         }
     });
     getJSONData(PRODUCT_INFO_COMMENTS_URL + localStorage.getItem('prodId') + EXT_TYPE).then(function (resultObj) {
@@ -16,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             showComments();
         }
     });
+
     document.getElementById('enviar').addEventListener('click', () => {
         let newComment = document.getElementById('comment').value;
         if (newComment != "") {
@@ -66,9 +69,15 @@ function showProduct() {
     }
 
     htmlContentToAppend += `
-    <div class="m-1 p-4 lead">
-        <h2>${product.name}</h2>
-    </div>
+    <div class="m-1 p-4 pt-5 lead">
+        <h2 class="d-inline">${product.name}</h2> 
+        <form class="d-inline row justify-content-md-end">
+        <button type="button" class="btn btn-success float-end" style="width: 100px;" id="comprar">Comprar</button>
+        <input type="number" value="1" style="width: 60px;" class="float-end" id="canti">
+        
+        </form>
+        </div>
+   
     <hr>
     
     <div class="col">
@@ -169,4 +178,37 @@ function showRelatedProducts() {
 function setProdID(id) {
     localStorage.setItem("prodId", id);
     window.location = "product-info.html"
+}
+
+function buyProduct() {
+    document.getElementById('comprar').addEventListener('click', () => {
+        let comprado = {};
+        let carro = [];
+        comprado.id = product.id
+        comprado.name = product.name;
+        comprado.count = document.getElementById('canti').value;
+        comprado.unitCost = product.cost;
+        comprado.currency = product.currency;
+        comprado.image = product.images[0];
+
+
+        carro = JSON.parse(localStorage.getItem('carrito'));
+
+        if (carro == null) {
+            getJSONData(CART_INFO_URL + 25801 + EXT_TYPE).then(function (resultObj) {
+                if (resultObj.status === "ok") {
+                    carro = resultObj.data.articles;
+                    carro.push(comprado);
+                    localStorage.setItem('carrito', JSON.stringify(carro));
+                }
+            });
+        } else {
+
+            carro.push(comprado)
+
+            localStorage.setItem('carrito', JSON.stringify(carro));
+        }
+window.location.href="cart.html"
+    });
+
 }
