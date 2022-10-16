@@ -47,7 +47,7 @@ function checkLogin(){
       window.location.href="login.html"
   }else{
       document.getElementById('user').innerHTML = `
-<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+<div class="collapse navbar-collapse d-block" id="navbarNavDarkDropdown">
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
