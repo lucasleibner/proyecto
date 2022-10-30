@@ -128,7 +128,7 @@ function showComments() {
         let star = "";
 
         for (let i = 0; i < comentario.score; i++) {
-            star += `<span class="fa fa-star checked"></span>`
+            star += `<i class="fa fa-star checked"></i>`
         }
         if (comentario.score < 5) {
             for (let i = comentario.score; i < 5; i++) {

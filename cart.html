@@ -48,6 +48,7 @@
               <th scope="col">Costo:</th>
               <th scope="col">Cantidad:</th>
               <th scope="col">Subtotal:</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody id="tbody">
@@ -65,10 +66,10 @@
       <label for="rbtnStandard">Standard 12 a 15 días (5%)</label>
 
       <h4 class="text-start py-4">Dirección de envío</h4>
-      <form class="row g-3 needs-validation" novalidate>
+      <form class="row g-3 needs-validation p-3" novalidate>
         <div class="col-md-4">
-          <label for="validationCustom01" class="form-label">Calle</label>
-          <input type="text" class="form-control" id="validationCustom01" value="" required>
+          <label for="calle" class="form-label">Calle</label>
+          <input type="text" class="form-control" id="calle" value="" required>
           <div class="valid-feedback">
             Excelente!
           </div>
@@ -77,8 +78,8 @@
           </div>
         </div>
         <div class="col-md-4">
-          <label for="validationCustom02" class="form-label">Número</label>
-          <input type="text" class="form-control" id="validationCustom02" value="" required>
+          <label for="numero" class="form-label">Número</label>
+          <input type="text" class="form-control" id="numero" value="" required>
           <div class="valid-feedback">
             Perfecto!
           </div>
@@ -87,8 +88,8 @@
           </div>
         </div>
         <div class="col-md-6">
-          <label for="validationCustom03" class="form-label">Esquina</label>
-          <input type="text" class="form-control" id="validationCustom03" required>
+          <label for="esquina" class="form-label">Esquina</label>
+          <input type="text" class="form-control" id="esquina" required>
           <div class="invalid-feedback">
             Por favor, ingrese una esquina.
           </div>
@@ -98,7 +99,41 @@
         </div>
       </form>
       <hr>
-    </div>
+      <h4 class="text-start py-2">Costos</h4>
+      <div class="list-group p-3">
+        <div class="list-group-item row d-flex">
+          <div class="col-9">
+            <h6 class="py-1">Subtotal</h6>
+            <p class="text-muted m-0">Costo unitario del producto por cantidad</p>
+          </div>
+          <p class="text-muted col-3 text-end" id="costoSubtotal">---</p>
+        </div>
+
+        <div class="list-group-item row d-flex">
+          <div class="col-9">
+            <h6 class="py-1">Costo de envío</h6>
+            <p class="text-muted m-0">Según el tipo de envío</p>
+          </div>
+          <p class="text-muted col-3 text-end" id="costoEnvio">---</p>
+        </div>
+
+        <div class="list-group-item row d-flex">
+          <div class="col-9">
+            <h6 class="py-1 m-0">Total ($)</h6>
+          </div>
+          <strong class="col-3 text-end" id="costoTotal">---</strong>
+        </div>
+      </div>
+      <hr>
+      <h4 class="text-start py-4">Forma de Pago</h4>
+      <span id="formaPago">No ha seleccionado</span>
+      <button type="button" class="m-1 btn btn-link" data-bs-toggle="modal"
+        data-bs-target="#paymentMethod" id="selectPayment">Seleccionar</button>
+        <div id="paymentError" class="invalid-feedback">
+          Por favor, debe seleccionar una forma de pago.
+        </div>
+
+        <button type="submit" id="buy" class="btn btn-primary my-5 col-12">Finalizar compra</button>
     </div>
   </main>
   <footer class="text-muted">
@@ -111,6 +146,80 @@
       <p>Clickea <a target="_blank" href="Letra.pdf">aquí</a> para descargar la letra del obligatorio.</p>
     </div>
   </footer>
+  <div class="modal fade" tabindex="-1" role="dialog" id="paymentMethod">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Forma de pago</h5>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+
+            <input type="radio" name="payment" id="cred">
+            <label for="cred" class="form-label">Tarjeta de crédito</label>
+            <hr>
+
+            <form class="row g-3 needs-validation" novalidate>
+              <div class="col-md-6">
+                <label for="cardNumber" class="form-label">Número de tarjeta</label>
+                <input type="text" class="form-control" id="cardNumber" value="" required>
+                <div class="valid-feedback">
+                  Excelente!
+                </div>
+                <div class="invalid-feedback">
+                  Por favor, ingrese un número de tarjeta.
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="code" class="form-label">Código de seg.</label>
+                <input type="text" class="form-control" id="code" value="" required>
+                <div class="valid-feedback">
+                  Perfecto!
+                </div>
+                <div class="invalid-feedback">
+                  Por favor, ingrese un código.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="expDate" class="form-label">Vencimiento (MM/AA) </label>
+                <input type="text" class="form-control" id="expDate" required>
+                <div class="invalid-feedback">
+                  Por favor, ingrese una fecha en formato (MM/AA).
+                </div>
+                <div class="valid-feedback">
+                  Anotado!
+                </div>
+              </div>
+            </form>
+
+            <div class="py-3">
+              <input type="radio" name="payment" id="transf">
+              <label for="transf" class="form-label">Transferencia bancaria</label>
+              <hr>
+
+              <form class="row g-3 needs-validation" novalidate>
+                <div class="col-md-6">
+                  <label for="accountNo" class="form-label">Número de cuenta</label>
+                  <input type="text" class="form-control" id="accountNo" value="" required>
+                  <div class="valid-feedback">
+                    Excelente!
+                  </div>
+                  <div class="invalid-feedback">
+                    Por favor, ingrese un número de cuenta.
+                  </div>
+                </div>
+              </form>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="spinner-wrapper">
     <div class="lds-ring">
       <div></div>
@@ -119,6 +228,9 @@
       <div></div>
     </div>
   </div>
+  <div class="alert alert-success d-none" id="alerta" role="alert">
+  ¡Has comprado con éxito!
+</div>
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/cart.js"></script>
