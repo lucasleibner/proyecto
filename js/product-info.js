@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
             showProduct();
             showRelatedProducts();
             buyProduct();
-            console.log(JSON.parse(localStorage.getItem('carrito')));
         }
     });
     getJSONData(PRODUCT_INFO_COMMENTS_URL + localStorage.getItem('prodId') + EXT_TYPE).then(function (resultObj) {
@@ -73,7 +72,7 @@ function showProduct() {
         <h2 class="d-inline">${product.name}</h2> 
         <form class="d-inline row justify-content-md-end">
         <button type="button" class="btn btn-success float-end" style="width: 100px;" id="comprar">Comprar</button>
-        <input type="number" value="1" style="width: 60px;" class="float-end" id="canti">
+        <input type="number" value="1" min="1" style="width: 60px;" class="float-end" id="canti">
         
         </form>
         </div>
@@ -192,21 +191,21 @@ function buyProduct() {
         comprado.image = product.images[0];
 
 
-        carro = JSON.parse(localStorage.getItem('carrito'));
+        carro = JSON.parse(localStorage.getItem('carrito-' + localStorage.getItem('username')));
 
         if (carro == null) {
             getJSONData(CART_INFO_URL + 25801 + EXT_TYPE).then(function (resultObj) {
                 if (resultObj.status === "ok") {
                     carro = resultObj.data.articles;
                     carro.push(comprado);
-                    localStorage.setItem('carrito', JSON.stringify(carro));
+                    localStorage.setItem('carrito-' + localStorage.getItem('username'), JSON.stringify(carro));
                 }
             });
         } else {
 
             carro.push(comprado)
 
-            localStorage.setItem('carrito', JSON.stringify(carro));
+            localStorage.setItem('carrito-' + localStorage.getItem('username'), JSON.stringify(carro));
         }
 window.location.href="cart.html"
     });

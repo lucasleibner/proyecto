@@ -4,7 +4,7 @@ let porcentajeEnvio = 0.15;
 document.addEventListener('DOMContentLoaded', () => {
     checkLogin();
 
-    productsCartArray = JSON.parse(localStorage.getItem('carrito'));
+    productsCartArray = JSON.parse(localStorage.getItem('carrito-' + localStorage.getItem('username')));
     if (productsCartArray == null) {
         getJSONData(CART_INFO_URL + 25801 + EXT_TYPE).then(function (resultObj) {
             if (resultObj.status === "ok") {
@@ -230,7 +230,7 @@ function showProductsCartList(array) {
     </tr>`} else {
             array.splice(i, 1);
             i--;
-            localStorage.setItem('carrito', JSON.stringify(productsCartArray))
+            localStorage.setItem('carrito-' + localStorage.getItem('username'), JSON.stringify(productsCartArray))
 
         }
 
@@ -245,13 +245,13 @@ function changeQtity() {
         const prod = productsCartArray[i];
         prod.count = document.getElementById("cdad" + i).value;
     }
-    localStorage.setItem('carrito', JSON.stringify(productsCartArray))
+    localStorage.setItem('carrito-' + localStorage.getItem('username'), JSON.stringify(productsCartArray))
     showProductsCartList(productsCartArray);
 }
 
 function deleteProd(indice) {
     productsCartArray[indice].count = 0;
-    localStorage.setItem('carrito', JSON.stringify(productsCartArray))
+    localStorage.setItem('carrito-' + localStorage.getItem('username'), JSON.stringify(productsCartArray))
     showProductsCartList(productsCartArray);
 }
 

@@ -44,17 +44,83 @@
           <li class="nav-item">
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="user">
           </li>
         </ul>
       </div>
     </div>
   </nav>
   <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+    <div class="container p-5 col-7">
+      <div class="d-flex w-100 justify-content-between">
+      <h3 class="d-inline">Perfil</h3>
+      <div id="imageProfile">
+
       </div>
+      
+    </div>
+      
+      <hr>
+      <form action="#" method="get" id="formulario" class="row mt-4 needs-validation" novalidate>
+        <div class="col">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="fname" class="form-label">Primer Nombre *</label>
+              <input type="text" class="form-control" id="fname" required>
+              <div class="invalid-feedback">
+                Debe ingresar un nombre.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="sname" class="form-label">Segundo Nombre</label>
+              <input type="text" class="form-control" id="sname">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="flname" class="form-label">Primer Apellido *</label>
+              <input type="text" class="form-control" id="flname" required>
+              <div class="invalid-feedback">
+                Debe ingresar un apellido.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="slname" class="form-label">Segundo Apellido</label>
+              <input type="text" class="form-control" id="slname">
+            </div>
+
+            <div class="col-sm-6">
+              <label for="email" class="form-label">E-mail</label>
+              <input type="email" class="form-control" id="email" required>
+              <div class="invalid-feedback">
+                Debe ingresar un email.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label class="form-label" for="image">Imagen de perfil</label>
+              <input type="file" class="form-control" id="image" accept="image/*">
+            </div>
+
+            <div id="test"></div>
+
+            <div class="col-sm-6">
+              <label for="contactno" class="form-label">Teléfono de Contacto</label>
+              <input type="number" class="form-control" id="contactno">
+            </div>
+            <br>
+            <br><br>
+            <br><br>
+            <br>
+            <hr class="mt-5">
+            <button class="btn btn-primary col-sm-3" type="submit" id="saveChanges">Guardar Cambios</button>
+
+
+          </div>
+        </div>
+      </form>
+
     </div>
   </main>
   <footer class="text-muted">
